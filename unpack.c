@@ -3,8 +3,9 @@
 ** Author: Fatbag
 ** Revision: 2014-02-18
 ** License: Public domain (no warranties, express or implied)
-** From: http://niotso.org/??
-** Compile: gcc -m32 -Wall -Wextra -pedantic -ansi -Os -s -mconsole -o unpack.exe unpack.c -ludis86
+** From: http://niotso.org/files/unpack.c
+** c:/mingw/lib/gcc/mingw32/9.2.0
+** Compile: gcc -m32 -Wall -Wextra -pedantic -ansi -Os -s -mconsole -o unpack.exe unpack.c ./libudis86.a
 */
 
 /*
@@ -82,7 +83,7 @@
 #include <stdint.h>
 #include <windows.h>
 #include <tlhelp32.h>
-#include <udis86.h>
+#include "udis86.h"
 
 #define write_uint32(dest, src) do *(uint32_t*)(dest) = (uint32_t)(src); while(0)
 
@@ -370,7 +371,7 @@ static int Shutdown(const char *function_name)
     return ret;
 }
 
-static BOOL WINAPI HandlerRoutine(DWORD dwCtrlType)
+BOOL WINAPI HandlerRoutine(DWORD dwCtrlType)
 {
     if(shutting_down) /* if we are interrupted in the middle of shutting down, don't do anything */
         return TRUE;
